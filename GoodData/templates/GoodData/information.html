@@ -1,0 +1,86 @@
+{% extends "GoodData/base.html" %}
+{% block contents %}
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css" />
+
+<div class="header_sub" style="height: 140px;">
+	<div class="header_menu">
+		<i class="fa fa-cog fa-2x"></i>
+		<h1>내 정보</h1>
+		<a class="back_btn" href="javascript:history.back();"><i class="fa fa-arrow-left"></i></a>
+	</div>
+</div>
+
+<div class="content">
+	<div class="content_wrap do_1">
+		
+			<img class="info_img" src="/media/{{ customer_info.cus_image }}" alt="profile_photo" />
+			<div class="info_txt_wrap">
+				<p class="info_txt">{{customer_info.cus_name}} /
+					{{customer_info.cus_ID}}</p>
+				<p class="info_txt" style="font-size: 1.4rem; padding-top: 2px; color: #4e4e4e;">{{customer_info.cus_address}}</p>
+			
+		</div>
+	</div>
+
+
+<!-- <div class="content_wrap"> -->
+	<div class="content info_de">
+		<div class="row">
+			<div class="info_box1" style="margin-top: 120px;">
+				<p class="info_tit">계정</p>
+				<form action="{% url 'information_update' %}" method="GET">
+					{% csrf_token %} <input class="update" 
+						type="submit" value="회원정보 수정" />
+				</form>
+
+				<form action="{% url 'information_delete' %}" method="GET">
+					{% csrf_token %} <input class="update" type="submit" value="회원 탈퇴" />
+				</form>
+
+				<form action="{% url 'logout' %}" method="POST">
+					{% csrf_token %} <input class="update" type="submit" value="로그아웃" />
+				</form>
+			</div>
+
+			<div class="info_box1 my_box" style="margin-top: 24px;">
+				<p class="info_tit">앱정보</p>
+				<!-- <div class="update" >
+					<a href="{% url 'app_version_info' %}" class="resAddBtn lt"
+						role="button">앱 버전</a>
+				</div> -->
+
+				<div class="update">
+					<a href="{% url 'question' %}" class="resAddBtn lt" role="button">문의하기</a>
+				</div>
+
+				<div class="update">
+					<a href="{% url 'notice' %}" class="resAddBtn lt" role="button">공지사항</a>
+				</div>
+
+				<div class="update">
+					<a href="{% url 'privacy_policy' %}" class="resAddBtn lt"
+						role="button">개인정보 처리 방침</a>
+				</div>
+
+				<div class="update">
+					<a href="{% url 'open_source_license' %}" class="resAddBtn lt"
+						role="button">오픈소스 라이언스</a>
+				</div>
+
+				<!-- <div class="update">
+					<a href="{% url 'etc' %}" class="resAddBtn lt" role="button">기타</a>
+				</div> -->
+			</div>
+		</div>
+	</div>
+</div>
+<!-- </div> -->
+
+<div>
+	{% block panel-footer %}
+		{% include "GoodData/footer.html" %}
+	{% endblock %}
+</div>
+
+{% endblock %}

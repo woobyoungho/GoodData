@@ -1,0 +1,38 @@
+{% extends "GoodData/base.html" %}
+{% block contents %}
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css" />
+
+<div class="header_sub">
+	<div class="header_menu">
+		<i class="fa fa-headset fa-2x"></i>
+		<h1>문의하기</h1>
+		<a class="back_btn" href="javascript:history.back();"><i class="fa fa-arrow-left"></i></a>
+	</div>
+</div>
+
+<div class="content" style="margin: 115px auto 90px;">
+	<div class="sign">
+	    <p class="sign_t">총 책임자</p>
+		<p class="sign_b">김민철 alscjf909@gmail.com</p>
+		
+		<p class="sign_t">리드 개발자</p>
+		<p class="sign_b">우병호 wbh@flash21.com</p>
+		
+		<p class="sign_t">개발자</p>
+		<p class="sign_b">seongr39@haedal.io, kimdo331331@gmail.com</p>
+		
+		<p class="sign_t">문의처</p>
+		<p class="sign_b">https://forms.gle/sKuGGFj4MThfm6p49</p>
+
+	</div>
+</div>
+
+<div>
+	{% block panel-footer %}
+		{% include "GoodData/footer.html" %}
+	{% endblock %}
+</div>
+
+{% endblock %}
+

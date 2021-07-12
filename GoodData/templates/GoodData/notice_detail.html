@@ -1,0 +1,32 @@
+{% extends "GoodData/base.html" %}
+{% block contents %}
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css" />
+
+<div class="header_sub">
+	<div class="header_menu">
+		<i class="fa fa-bell fa-2x"></i>
+		<h1>공지사항 상세</h1>
+		<a class="back_btn" href="javascript:history.back();"><i class="fa fa-arrow-left"></i></a>
+	</div>
+</div>
+
+<div class="content" style="margin: 115px auto 90px;">
+	<div class="sign">
+		<div class="notice_wrap">
+			<p class="nd_tit" >{{ notice_detail.1 }}</p>
+			<div class="nd_txt">{{ notice_detail.2|linebreaks }}</div>
+			<p class="nd_person">{{ notice_detail.3 }}</p>
+			<p class="nd_date">{{ notice_detail.4 }}</p>
+		</div>
+	</div>
+</div>
+
+<div>
+	{% block panel-footer %}
+		{% include "GoodData/footer.html" %}
+	{% endblock %}
+</div>
+
+{% endblock %}
+

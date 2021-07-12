@@ -1,0 +1,148 @@
+{% block contents %}
+{% load static %}
+
+<!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+	<!-- Boot strap -->
+    <!-- 합쳐지고 최소화된 최신 CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+    <!-- 부가적인 테마 -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
+    <!-- 합쳐지고 최소화된 최신 자바스크립트 -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+    
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+    
+    <script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"></script>
+    
+    <!-- Bootstrap CSS -->
+    <!-- <link rel="stylesheet" href="/static/css/bootstrap.min.css"/> -->
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}"/>
+    
+<!-- <div class="header">
+	<div class="jumbotron">
+		<h1>굿데이터 다른 서비스로 로그인 선택</h1>
+	</div>
+</div> -->
+
+<div class="header_sub" style="top: 0;">
+	<div class="header_menu">
+		<h1 style="font-size: 1.6rem;">굿데이터 다른 서비스로 로그인 선택</h1>
+	</div>
+</div>
+
+<div class="notice">
+	<p>{{response_data.error}}</p>
+</div>
+
+<div class="content">
+	<div class="sign">
+
+		<button id="button1" class="log_button" onclick="button1_click();">기존회원</button>
+		<button id="button2" class="log_button" onclick="button2_click();">신규회원</button>
+		{% for account in user.socialaccount_set.all %}
+			<input type="hidden" id="social_uid_in" name="social_uid_in" value="{{ account.uid }}"/>
+		{% endfor %}
+		<div>
+			<form action="{% url 'existing_cus_search' %}" method="POST">
+				{% csrf_token %}
+				<input type="hidden" id="login_show" name="login_show" value="{{response_data.login_show}}"/>
+				<div id="cus_search">
+					<div style="margin-bottom: 10px;">기존회원 아이디 검색<input class="sign_input" type="text" id="search_username" name="search_username" value="{{cus_search}}" /></div>
+					<input class="search_btn" style="margin-left: 4px;" type="submit"value="검색" />
+				</div>
+			</form>
+		</div>
+		
+		<form action="{% url 'campaign' %}" method="POST">
+		{% csrf_token %}
+			{% for account in user.socialaccount_set.all %}
+				<input type="hidden" id="social_uid1" name="social_uid1" value="{{ account.uid }}"/>
+		  	{% endfor %}
+		  	<input type="hidden" id="login_error" name="login_error" value="{{ response_data.login_error }}"/>
+			<div id="login">
+				<p style="font-size: 1.89rem;font-weight: 600;padding-bottom: 10px;">로그인</p>
+				<div class="l_box">아이디 : </div><input type="text" name="cus_username" id="cus_username" readonly/>
+				<div class="l_box">비밀번호 : </div><input type="password" name="cus_password" id="cus_password" />
+				<div class="login_box login2">
+					<input class="login_btn sign_btn" type="submit" value="로 그 인" />
+					<a href="{% url 'logout' %}" class="resAddBtn btn btn-danger" role="button">홈으로</a>
+				</div>
+			</div>
+		</form>
+		
+		<form action="{% url 'social_login_signup' %}" method="POST" enctype="multipart/form-data">
+		{% csrf_token %}
+			{% for account in user.socialaccount_set.all %}
+				<input type="hidden" id="social_uid2" name="social_uid2" value="{{ account.uid }}"/>
+		  	{% endfor %}
+		  	<input type="hidden" id="new_customer_show" name="new_customer_show" value="{{ response_data.new_customer_show }}"/>
+			<div id="sign_up_entry1">
+				<div>아이디 : <input class="sign_input sign_all" type="text" name="username"id="username" /></div>
+			   	<!-- <div>패스워드 : <input class="sign_input sign_all" type="password"name="password1" id="password1" /></div>
+				<div>패스워드 확인 : <input class="sign_input sign_all" type="password" name="password2" id="password2" /></div> -->
+				<div>이름 : <input class="sign_input sign_all"	type="text" name="name" id="name" /></div>
+				<div>주소 : <input class="sign_input sign_all" type="text"	name="address" id="address" /></div>
+				<!-- <div>주민번호 : <input class="sign_input sign_all" type="text"	name="RRN" id="RRN" /></div> -->
+				<div>휴대폰번호 : <input class="sign_input sign_all" type="text" name="phone_number" id="phone_number" /></div>
+				<div>프로필사진 : <input class="sign_input sign_all" type="file" name="profile_img" id="profile_img" /></div>
+			</div>
+			
+			<div class="sign_box" id="sign_up_entry2">
+				<input class="sign_btn" type="submit"value="회 원 가 입" /> 
+				<a href="{% url 'login' %}" class="resAddBtn btn btn-danger" role="button">홈으로</a>
+			</div>
+		</form>
+
+	</div>
+</div>
+
+<script>
+$(function() {
+	$("#cus_search").show()
+	$("#login").hide()
+	$("#sign_up_entry1").hide()
+	$("#sign_up_entry2").hide()
+	
+	if($("#login_show").val() == 'login_show' || $("#login_error").val() == 'login_error'){
+		$('#login').show()
+		$('#cus_username').val($('#search_username').val())
+	}
+	
+	if($("#new_customer_show").val() == 'new_customer_show'){
+		$("#cus_search").hide()
+		$("#login").hide()
+		$("#sign_up_entry1").show()
+		$("#sign_up_entry2").show()
+	}
+})
+
+function button1_click(){
+	$("#cus_search").show()
+	$("#login").hide()
+	$("#sign_up_entry1").hide()
+	$("#sign_up_entry2").hide()
+	$(".sign_all").val("")
+	$("#new_customer_show").val("")
+}
+
+function button2_click(){
+	$("#cus_search").hide()
+	$("#login").hide()
+	$("#sign_up_entry1").show()
+	$("#sign_up_entry2").show()
+	$("#search_username").val("")
+	$("#login_show").val("")
+	$("#login_error").val("")
+	$("#new_customer_show").val("")
+}
+</script>
+
+{% endblock %}
+

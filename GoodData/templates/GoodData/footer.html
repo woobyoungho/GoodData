@@ -1,0 +1,15 @@
+<!-- <a href ="{% url 'campaign' %}">캠페인</a>
+<a href ="{% url 'project_all' %}">프로젝트</a>
+기부현황 <a href ="/admin/">내정보</a> -->
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css" />
+
+
+<div id="footer">
+	<ul>
+		<li><a href="{% url 'campaign' %}"><i class="fa fa-home fa-2x"></i><br />메인</a></li>
+		<li><a href="{% url 'project_all' %}"><i class="fa fa-shapes fa-2x"></i><br />분류하기</a></li>
+		<li><a href="{% url 'donation' %}"><i class="fa fa-hand-holding-heart fa-2x"></i><br />기부현황</a></li>
+		<li><a href="{% url 'information' %}"><i class="fa fa-cog fa-2x"></i><br />내정보</a></li>
+	</ul>	
+</div>

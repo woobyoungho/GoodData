@@ -1,0 +1,122 @@
+{% extends "GoodData/base.html" %}
+{% block contents %}
+
+<!-- <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script> -->
+
+<script>
+	$(document).ready(function() {
+		$(".yes").hide();
+		$(".no").hide();
+		$("#yes").hide();
+		$("#no").hide();
+		
+		/* $("#video_test").on("ended", function() {
+
+	        alert("finish");
+
+	   }); */
+	   
+	   var video = document.getElementById("video_test");
+	   
+		// 동영상 재생 시간이 바뀌면 호출되는 이벤트
+		video.addEventListener('timeupdate', function(e){
+			// 현재 재생 시간 (초 단위 절삭)
+			var playtime = Math.floor(video.currentTime);
+			// 전체 재생 시간 (초 단위 절삭)
+			var total = Math.floor(video.duration);
+			
+			// 상태 표시
+			$("#videoProgress").html(playtime + "초 / " + total + "초");
+			if(playtime == total){
+				$("#classification").hide();
+				$("#yes").show();
+				$("#no").show();
+				$(".yes").show();
+				$(".no").show();
+			}
+		}, false);
+	});
+
+	/* function classification_click() {
+		$("#classification").hide();
+		$("#yes").show();
+		$("#no").show();
+		$(".yes").show();
+		$(".no").show();
+	} */
+	
+	function Y_function(){
+		$("#YN").val("yes")
+	}
+	
+	function N_function(){
+		$("#YN").val("no")
+	}
+	
+</script>
+
+<div class="header_sub">
+	<div class="header_menu">
+		<i class="fa fa-check fa-2x"></i>
+		<h1>프로젝트 상세</h1>
+		<a class="back_btn" href="javascript:history.back();"><i
+			class="fa fa-arrow-left"></i></a>
+	</div>
+</div>
+
+<!-- <div class="notice">
+	<p>{{response_data.error}} </p>
+</div> -->
+
+<div class="content">
+		<div class="row">
+			<div id="video_tit">{{ video_info.pro_detail_title }}</div>
+			<div id="video_p">{{ video_info.pro_detail_content|linebreaks }}</div>
+			<!-- <h2 id="vt">- 영상 -</h2> -->
+			<p align="center">
+				<video id="video_test" controls class="video">
+					<source src="/media/{{ video_info.video }}" type="video/mp4"></source>
+				</video>
+			</p>동영상 로드 - <span id="videoProgress">0초 / 0초</span></p>
+
+			<form action="./" method="POST">
+				{% csrf_token %} <input type="hidden" id="pro_detail_id"
+					name="pro_detail_id" value="{{ video_info.pro_detail_id }}" /> <input
+					type="hidden" id="pro_order" name="pro_order"
+					value="{{ video_info.pro_order }}" /> <input type="hidden"
+					id="project_id" name="project_id"
+					value="{{ video_info.project_id }}" /> <input type="hidden" id="YN"
+					name="YN" value="" /> <input type="button" id="classification"
+					onclick="classification_click();" value="분 류 하 기" />
+				<div class="classi_box">
+					<div class="yes">
+						<button type="button" class="but_hide">
+							<input type="image" src="/static/images/yes.png" alt="yes" name="yes" onclick="Y_function();"/>
+							<input class="classi_btn" type="submit" id="yes" name="yes" value="예" onclick="Y_function();" />
+						</button>
+					</div>
+					<div class="no">
+						<button type="button" class="but_hide">
+							<input type="image" src="/static/images/no.png" alt="no" name="no" onclick="N_function();"/>
+							<input class="classi_btn no" type="submit" id="no" name="no" value="아니요" onclick="N_function();" />
+						</button>
+					</div>
+				</div>
+			</form>
+
+			<!-- <div class="sign_box">
+			<a href="/campaign" class="resAddBtn btn btn-danger" role="button">캠페인으로</a>
+			<a href="/logout" class="resAddBtn btn btn-danger" role="button">로그아웃</a>
+		</div> -->
+
+		</div>
+	</div>
+
+
+<div>
+	{% block panel-footer %}
+		{% include "GoodData/footer.html" %}
+	{% endblock %}
+</div>
+
+{% endblock %}

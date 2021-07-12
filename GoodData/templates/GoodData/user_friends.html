@@ -1,0 +1,65 @@
+{% extends "GoodData/base.html" %}
+{% block contents %}
+{% load static %}
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css" />
+
+<div class="header_sub">
+	<div class="header_menu">
+		<i class="fa fa-user-friends fa-2x"></i>
+		<h1>친구 검색 및 등록</h1>
+		<a class="back_btn" href="javascript:history.back();"><i class="fa fa-arrow-left"></i></a>
+	</div>
+</div>
+
+<div class="content">
+	<div class="row">
+		<form action="{% url 'user_friends_search' %}" method="POST">
+		{% csrf_token %}
+			<div class="id_box fr_search">친구 ID 검색 :
+				<input type="text" name="user_search" id="user_search" value="{{ user_search }}" />
+				<input class="search_btn" type="submit" value="검색" />
+			</div>
+		</form>
+		
+		<div id="search_div">
+			<img class="my_img sh_img" src="/media/{{ user_info.3 }}"alt="profile_photo">
+			<input style="position: absolute; top: 50%;left: 10px;transform: translateY(-50%);" type="radio" name="search_result" id="search_result" value="{{ user_search }}" />
+				<div class="sh_list info_0">{{ user_info.0 }}</div> <div class="sh_list info_1">{{ user_info.1 }}</div>
+				<div class="sh_list info_2">{{ user_info.2 }}</div>
+		</div>
+
+		<div class="notice">
+			<p>{{response_data.error}}</p>
+		</div>
+
+		<div class="sign_box" >
+			<form action="{% url 'user_friends_enrollment' %}" method="POST">
+			{% csrf_token %}
+				<input type="hidden" id="user_enrollment" name="user_enrollment" value="{{ user_enrollment }}"/>
+				<input type="hidden" id="user_ID" name="user_ID" value="{{ user_search }}"/>
+				<input class="login_btn sign_btn" type="submit" value="친구 등록" />
+			</form>
+			<a href="{% url 'donation' %}" class="resAddBtn btn btn-danger lt" role="button">돌아가기</a>
+		 </div>
+	</div>
+</div>
+
+<div>
+	{% block panel-footer %}
+		{% include "GoodData/footer.html" %}
+	{% endblock %}
+</div>
+
+<script>
+$(function() {
+	if($('#user_enrollment').val() == "user_enrollment"){
+		$("#search_div").show()
+		$("input:radio[name='search_result']").prop('checked', true); // 선택하기
+	} else {
+		$("#search_div").hide()
+	}
+})
+</script>
+
+{% endblock %}

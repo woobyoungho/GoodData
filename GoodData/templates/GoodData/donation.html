@@ -1,0 +1,118 @@
+{% extends "GoodData/base.html" %}
+{% block contents %}
+{% load static %}
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css" />
+
+<script src="{% static 'js/Chart.min.js' %}"></script>
+<script src="{% static 'js/utils.js' %}"></script>
+
+
+<div class="header_sub" style="height: 140px;">
+	<div class="header_menu">
+		<i class="fa fa-hand-holding-heart fa-2x"></i>
+		<h1>기부 현황</h1>
+		<a class="back_btn" href="javascript:history.back();"><i class="fa fa-arrow-left"></i></a>
+	</div>
+</div>
+
+
+<div class="content">
+	<div class="content_wrap do_1">
+		
+			<img class="my_img point_img"
+				src="/media/{{ customer_point.cus_image }}" alt="profile_photo" />
+			<div class="info_txt_wrap">
+				<p class="do_name">{{customer_point.cus_name}} /
+					{{customer_point.cus_ID}}</p>
+				<p class="point">{{customer_point.point}}P</p>
+			</div>
+		
+	</div>
+    <div style="width: 100% !important; height: 112px; position: fixed; background-color: #ffffff; z-index: 99;
+    margin: 0px !important; left: 50%; transform: translateX(-50%);"></div>
+		<div class="row">
+		<div class="content_wrap do_2">
+			<div id="container" style="width: 100%; margin: 30px 0 45px;">
+				<canvas id="canvas"></canvas>
+			</div>
+		</div>
+
+		<div class="content_wrap do_3">
+			<div class="friends_box">
+				<p class="fr_tit">내 친구들</p>
+				<a href="{% url 'user_friends' %}" class="resAddBtn lt"
+					role="button"> <img class="plus"
+					src="{% static 'images/plus.png' %}" alt="plus">
+				</a> {% for count in friends_list %}
+				<div class="my_box f_box info_box">
+					<img class="my_img" src="/media/{{ count.3 }}" alt="profile_photo">
+					<div class="my_box_w">
+						<p class="do_name">{{ count.0 }} / {{ count.1 }}</p>
+						<p class="point f_point">{{ count.2 }}P</p>
+					</div>
+				</div>
+				{% endfor %}
+
+			</div>
+		</div>
+	</div>
+		</div>
+
+
+<script>
+	var color = Chart.helpers.color;
+	var barChartData = {
+		labels: [{% for i in point %}'{{ i.0 }}',{% endfor %}],
+		datasets: [{
+			label: 'POINT',
+			backgroundColor: [
+				{% for i in point %}
+					{% if i.0 == customer_point.cus_ID %}
+						'rgba(255, 99, 132, 1)',
+					{% else %}
+						'rgba(54, 162, 235, 1)',
+					{% endif %}
+				{% endfor %}
+			],
+			
+			borderColor: [
+				{% for i in point %}
+					{% if i.0 == customer_point.cus_ID %}
+						'rgba(255, 99, 132, 1)',
+					{% else %}
+						'rgba(54, 162, 235, 1)',
+					{% endif %}
+				{% endfor %}
+			],
+			borderWidth: 1,
+			data: [{% for i in point %}'{{ i.1 }}',{% endfor %}]
+		}]
+	};
+	
+	window.onload = function() {
+		var ctx = document.getElementById('canvas').getContext('2d');
+		window.myBar = new Chart(ctx, {
+			type: 'bar',
+			data: barChartData,
+			options: {
+				responsive: true,
+				legend: {
+					position: 'top',
+				},
+				title: {
+					display: true,
+					text: 'GoodData Bar Chart'
+				}
+			}
+		});
+	};
+</script>
+
+<div>
+	{% block panel-footer %}
+		{% include "GoodData/footer.html" %}
+	{% endblock %}
+</div>
+
+{% endblock %}

@@ -1,0 +1,31 @@
+{% extends "GoodData/base.html" %}
+{% block contents %}
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css" />
+
+<div class="header_sub">
+	<div class="header_menu">
+		<i class="fa fa-cog fa-2x"></i>
+		<h1>굿데이터 회원탈퇴</h1>
+		<a class="back_btn" href="javascript:history.back();"><i class="fa fa-arrow-left"></i></a>
+	</div>
+</div>
+
+<div class="content" style="margin: 115px auto 90px;">
+	<div class="sign">
+		<form action="{% url 'information_delete' %}" method="POST">
+			{% csrf_token %}
+			<p style="text-align: center; font-size:  1.7rem; font-weight: bold; margin: 34px 0 25px;" >회원 탈퇴 하시겠습니까?</p>
+			
+			<div class="sign_box">
+				<input class="sign_btn" type="submit" value="회원 탈퇴" />
+				<a href="/information" class="resAddBtn btn btn-danger" role="button">돌아가기</a>
+			</div>
+			
+		</form>
+
+	</div>
+</div>
+
+{% endblock %}
+

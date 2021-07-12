@@ -1,0 +1,55 @@
+{% extends "GoodData/base.html" %}
+{% block contents %}
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css" />
+
+<div class="header_sub">
+	<div class="header_menu">
+		<i class="fa fa-cog fa-2x"></i>
+		<h1 style="padding: 38px 0px 30px 10px;">굿데이터 회원정보수정</h1>
+		<a class="back_btn" href="javascript:history.back();"><i class="fa fa-arrow-left"></i></a>
+	</div>
+</div>
+
+
+
+<div class="content" style="margin: 115px auto 90px;">
+	<div class="sign">
+		<div class="notice">
+			<p>{{response_data.error}}</p>
+		</div>
+		<form action="{% url 'information_update' %}" method="POST" enctype="multipart/form-data">
+			{% csrf_token %}
+			<input type="hidden" id="password_str" name="password_str" value="{{ customer_info.cus_PW }}"/>
+			<input type="hidden" id="password_confirm" name="password_confirm" value=""/>
+			
+			<div>아이디 : <input class="sign_input" type="text" name="username" id="username" value="{{customer_info.cus_ID}}" readonly /></div>
+		   	<div class="pw">패스워드 : <input class="sign_input" type="password" name="password1" id="password1" /></div>
+			<div class="pw">패스워드 확인 : <input class="sign_input" type="password" name="password2" id="password2" /></div>
+			<div>이름 : <input class="sign_input"	type="text" name="name" id="name" value="{{customer_info.cus_name}}" /></div>
+			<div>주소 : <input class="sign_input" type="text"	name="address" id="address" value="{{customer_info.cus_address}}" /></div>
+			<!-- <div>주민번호 : <input class="sign_input" type="text"	name="RRN" id="RRN" value="{{customer_info.cus_RRN}}" /></div> -->
+			<div>휴대폰번호 : <input class="sign_input" type="text" name="phone_number" id="phone_number" value="{{customer_info.cus_phone_number}}" /></div>
+			<div>프로필사진 : <input class="sign_input" type="file"	name="profile_img" id="profile_img" value="{{customer_info.cus_image}}" /></div>
+
+			<div class="sign_box">
+				<input class="sign_btn" type="submit"value="회원정보 수정" />
+				<a href="/information" class="resAddBtn btn btn-danger" role="button">돌아가기</a>
+			</div>
+			
+		</form>
+
+	</div>
+</div>
+
+<script>
+	$(document).ready(function() {
+		if($("#password_str").val() == ""){
+			$(".pw").hide();
+			$("#password_confirm").val("password_confirm");
+		}
+	});
+</script>
+
+{% endblock %}
+
